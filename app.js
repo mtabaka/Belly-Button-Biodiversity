@@ -11,22 +11,28 @@
 
     // BONUS: Build the Gauge Chart
     // buildGauge(data.WFREQ);
-function buildMetadata(sample) {
-  var data;
-  var sample_url=`/metadata/${sample}`
-  d3.json(sample_url).then(function(response) {
-}
+    function buildMetadata(sample) {
+     
+        var data;
+        var sample_url=`/metadata/${sample}`
+ 
+        d3.json(sample_url).then(function(response) {
 
-function buildCharts(sample) {
-var data;
+   
+          data=Object.entries(response)
+          selector=d3.select("#sample-metadata")
+          selector.html("")
+          selector.append('br')  
+          data.forEach(function([key,value]){
+                            selector.append('p')
+                                    .text(`${key}:  ${value}`)})
+        
+    })};
+
   // @TODO: Use `d3.json` to fetch the sample data for the plots
-d3.json(sample_url)
-    // @TODO: Build a Bubble Chart using the sample data
+d3.json(sample_url).then(function(response))
+  
 
-    // @TODO: Build a Pie Chart
-    // HINT: You will need to use slice() to grab the top 10 sample_values,
-    // otu_ids, and labels (10 each).
-}
 
 function init() {
   // Grab a reference to the dropdown select element
@@ -53,6 +59,29 @@ function optionChanged(newSample) {
   buildCharts(newSample);
   buildMetadata(newSample);
 }
+  // @TODO: Build a Bubble Chart using the sample data
+
+    // @TODO: Build a Pie Chart
+    var data = [{
+      values: resValues,
+      labels: resLabels,
+      hovertext: bacteriaNamesPie,
+      hoverinfo: {bordercolor: 'black'},
+      type: 'pie'
+    }];
+
+    var layout = {
+      height: 500,
+      title: "Top Sample Counts for " + sample
+     };
+
+
+    Plotly.newPlot('piePlot', data, layout);
+    // HINT: You will need to use slice() to grab the top 10 sample_values,
+    // otu_ids, and labels (10 each).
+
+
+
 
 // Initialize the dashboard
 init();
